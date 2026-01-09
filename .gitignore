@@ -1,56 +1,52 @@
-# =====================================================
-# Python cache / environment
-# =====================================================
+# =========================
+# Python
+# =========================
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-.env
-.venv
-venv/
-
-# =====================================================
-# Data (NEVER commit raw or processed datasets)
-# =====================================================
-data/
-*.csv
-*.parquet
-*.pkl
-
-# =====================================================
-# Allow essential model artifacts (EXCEPTIONS)
-# =====================================================
-!artifacts/
-!artifacts/*.txt
-!artifacts/*.pkl
-!artifacts/*.csv
-
-# =====================================================
-# Generated reports / logs
-# =====================================================
-drift_report.csv
-feature_importance.csv
-shap_values.npy
+*.so
+*.egg-info/
+.eggs/
 *.log
 
-# =====================================================
-# Notebooks
-# =====================================================
+# =========================
+# Virtual Environments
+# =========================
+venv/
+.venv/
+env/
+.env/
+.env.*
+
+# =========================
+# ML Data & Artifacts (IMPORTANT)
+# =========================
+data/
+*.csv
+*.pkl
+*.joblib
+*.h5
+*.npy
+*.model
+*.bin
+*.txt
+
+# =========================
+# Experiment Outputs
+# =========================
+outputs/
+artifacts/
+checkpoints/
+runs/
+
+# =========================
+# Jupyter / Notebooks
+# =========================
 .ipynb_checkpoints/
-notebooks/
+*.ipynb
 
-# =====================================================
-# OS / Editor junk
-# =====================================================
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-tempCodeRunnerFile.py
-
-# =====================================================
-# Build / packaging
-# =====================================================
-dist/
-build/
-*.egg-info/
+# =========================
+# VS Code / IDE
+# =========================
+.v
