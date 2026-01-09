@@ -14,10 +14,11 @@ EXAMPLES:
 """
 
 import subprocess
-import sys
-import os
 import time
 from pathlib import Path
+import sys
+print("PYTHON EXECUTABLE:", sys.executable)
+
 
 # ============================================================================
 # PIPELINE STEPS
