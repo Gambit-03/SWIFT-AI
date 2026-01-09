@@ -1,3 +1,8 @@
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+RAW_DIR = REPO_ROOT / "data" / "raw"
+
 import pandas as pd
 import numpy as np
 import gc
@@ -39,10 +44,10 @@ def load_and_merge():
     print("STEP 1: LOADING AND MERGING DATA")
 
     print("\nLoading Train Transaction...")
-    train_trans = pd.read_csv('train_transaction.csv')
+    train_trans = pd.read_csv(RAW_DIR / "train_transaction.csv")
     
     print("Loading Train Identity...")
-    train_id = pd.read_csv('train_identity.csv')
+    train_id = pd.read_csv(RAW_DIR / "train_identity.csv")
 
     print("Merging Train Data on TransactionID...")
     train_df = pd.merge(train_trans, train_id, on='TransactionID', how='left')
@@ -60,10 +65,10 @@ def load_and_merge():
     gc.collect()
 
     print("\nLoading Test Transaction...")
-    test_trans = pd.read_csv('test_transaction.csv')
+    test_trans  = pd.read_csv(RAW_DIR / "test_transaction.csv")
 
     print("Loading Test Identity...")
-    test_id = pd.read_csv('test_identity.csv')
+    test_id    = pd.read_csv(RAW_DIR / "test_identity.csv")
 
     print("Merging Test Data on TransactionID...")
     test_df = pd.merge(test_trans, test_id, on='TransactionID', how='left')
