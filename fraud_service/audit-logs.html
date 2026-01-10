@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audit Logs - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2 active" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item active" href="audit-logs.html"><i
+                                        class="fas fa-file-invoice me-2"></i> Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Audit Logs & Compliance</h2>
+                <p class="text-muted mb-0">Record of all actions performed within the system for security and
+                    compliance.</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary"
+                    onclick="showAction('Export Logs', 'Generate a secure PDF report of the selected audit logs.')"><i
+                        class="fas fa-download me-2"></i>Download PDF</button>
+                <button class="btn btn-danger"
+                    onclick="showAction('Export Logs', 'Export audit data in CSV format for external analysis.')"><i
+                        class="fas fa-file-export me-2"></i>Export CSV</button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold small">Date Range</label>
+                        <select class="form-select">
+                            <option>Last 24 Hours</option>
+                            <option>Last 7 Days</option>
+                            <option>Last 30 Days</option>
+                            <option>Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold small">Event Type</label>
+                        <select class="form-select">
+                            <option>All Events</option>
+                            <option>Authentication</option>
+                            <option>Data Access</option>
+                            <option>Settings Changed</option>
+                            <option>Model Updated</option>
+                            <option>User Modified</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold small">User</label>
+                        <select class="form-select">
+                            <option>All Users</option>
+                            <option>Sarah Miller (Admin)</option>
+                            <option>Robert Fox (Senior Analyst)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold small">Search Keywords</label>
+                        <input type="text" class="form-control" placeholder="Search by ID, IP or action...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logs Table -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Timestamp</th>
+                                <th>User</th>
+                                <th>Action</th>
+                                <th>Entity</th>
+                                <th>IP Address</th>
+                                <th>Status</th>
+                                <th class="text-end pe-4">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold">2026-01-09 00:15:32</div>
+                                    <small class="text-muted">2 mins ago</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                            class="rounded-circle me-2" width="24" alt="">
+                                        <span>Admin</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger-subtle text-danger">Model Retired</span></td>
+                                <td>RandomForest_v2.1</td>
+                                <td><code>192.168.1.45</code></td>
+                                <td><span class="badge bg-success">Success</span></td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-light" data-bs-toggle="modal"
+                                        data-bs-target="#logDetailModal"><i class="fas fa-search-plus"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold">2026-01-08 23:58:11</div>
+                                    <small class="text-muted">20 mins ago</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://ui-avatars.com/api/?name=Sarah+Miller&background=random"
+                                            class="rounded-circle me-2" width="24" alt="">
+                                        <span>Sarah Miller</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-info-subtle text-info">Permission Changed</span></td>
+                                <td>User: Jerome Bell</td>
+                                <td><code>192.168.1.12</code></td>
+                                <td><span class="badge bg-success">Success</span></td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-light"><i class="fas fa-search-plus"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold">2026-01-08 23:45:00</div>
+                                    <small class="text-muted">32 mins ago</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="https://ui-avatars.com/api/?name=Robert+Fox&background=random"
+                                            class="rounded-circle me-2" width="24" alt="">
+                                        <span>Robert Fox</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning-subtle text-warning">Bulk Export</span></td>
+                                <td>Transaction Data (Nov 2025)</td>
+                                <td><code>172.16.0.4</code></td>
+                                <td><span class="badge bg-success">Success</span></td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-light"><i class="fas fa-search-plus"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-semibold">2026-01-08 23:10:45</div>
+                                    <small class="text-muted">1 hour ago</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-robot text-secondary me-2"></i>
+                                        <span>System Process</span>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-secondary-subtle text-secondary">Auto-Retrain</span></td>
+                                <td>NeuralX-Classifier</td>
+                                <td><code>::1</code></td>
+                                <td><span class="badge bg-danger">Failed</span></td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-light"><i
+                                            class="fas fa-search-plus text-danger"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 py-3">
+                <nav class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 small text-muted">Page 1 of 420 (4,200 entries)</p>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Log Detail Modal -->
+    <div class="modal fade" id="logDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Event Log Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Event ID</label>
+                            <p class="fw-bold">LOG-9847291-AZ</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Time (UTC)</label>
+                            <p class="fw-bold">2026-01-09 00:15:32.421</p>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-muted small">Action Description</label>
+                            <p>Administrator triggered manual retirement of model <span
+                                    class="badge bg-primary">RandomForest_v2.1</span> from production due to performance
+                                degradation in high-velocity tests.</p>
+                        </div>
+                        <div class="col-12">
+                            <label class="text-muted small">Metadata JSON</label>
+                            <pre class="bg-light p-3 rounded"><code>{
+  "action": "MODEL_RETIRE",
+  "actor": "admin_uuid_45",
+  "target": "model_uuid_rf21",
+  "reason": "performance_degradation",
+  "session_id": "sess_847291",
+  "ip": "192.168.1.45"
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger"><i class="fas fa-print me-2"></i>Print Entry</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function fetchAuditLogs() {
+            try {
+                const response = await fetch('/api/audit');
+                const logs = await response.json();
+
+                const tbody = document.querySelector('tbody');
+                tbody.innerHTML = '';
+
+                if (logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="text-center py-5">No system audits recorded yet.</td></tr>';
+                    return;
+                }
+
+                logs.forEach(log => {
+                    const row = document.createElement('tr');
+                    const timeStr = new Date(log.timestamp).toLocaleString();
+
+                    row.innerHTML = `
+                        <td class="ps-4">
+                            <div class="fw-semibold">${timeStr}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="https://ui-avatars.com/api/?name=${log.user}&background=dc3545&color=fff" class="rounded-circle me-2" width="24" alt="">
+                                <span>${log.user}</span>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-info-subtle text-info">${log.action}</span></td>
+                        <td>${log.target}</td>
+                        <td><code>127.0.0.1</code></td>
+                        <td><span class="badge bg-success">Success</span></td>
+                        <td class="text-end pe-4">
+                            <button class="btn btn-sm btn-light" onclick="alert('${log.details}')"><i class="fas fa-search-plus"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (e) { console.error('Audit Fetch Error:', e); }
+        }
+
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+
+            document.getElementById('confirmActionBtn').onclick = function () {
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+                    btn.innerHTML = 'Proceed';
+                    btn.disabled = false;
+                }, 1000);
+            };
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+            fetchAuditLogs();
+        });
+        setInterval(fetchAuditLogs, 15000);
+    </script>
+</body>
+
+</html>

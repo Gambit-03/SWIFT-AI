@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Scoring & Anomaly Insights - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Risk Scoring & Anomaly Insights</h2>
+            <div>
+                <button class="btn btn-outline-secondary me-2" onclick="handleExportReport()"><i
+                        class="fas fa-download me-2"></i>Export Report</button>
+                <button class="btn btn-danger" onclick="handleConfigureRules()"><i class="fas fa-cog me-2"></i>Configure
+                    Rules</button>
+            </div>
+        </div>
+
+        <!-- Risk Overview Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Critical Risk</p>
+                                <h2 class="mb-0 fw-bold text-danger">247</h2>
+                                <small class="text-danger"><i class="fas fa-arrow-up"></i> 12% increase</small>
+                            </div>
+                            <div class="stat-icon bg-danger-subtle">
+                                <i class="fas fa-exclamation-triangle text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">High Risk</p>
+                                <h2 class="mb-0 fw-bold text-warning">1,842</h2>
+                                <small class="text-warning"><i class="fas fa-arrow-up"></i> 8% increase</small>
+                            </div>
+                            <div class="stat-icon bg-warning-subtle">
+                                <i class="fas fa-shield-halved text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Medium Risk</p>
+                                <h2 class="mb-0 fw-bold text-info">3,456</h2>
+                                <small class="text-success"><i class="fas fa-arrow-down"></i> 3% decrease</small>
+                            </div>
+                            <div class="stat-icon bg-info-subtle">
+                                <i class="fas fa-chart-line text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Low Risk</p>
+                                <h2 class="mb-0 fw-bold text-success">42,231</h2>
+                                <small class="text-success"><i class="fas fa-arrow-down"></i> 5% decrease</small>
+                            </div>
+                            <div class="stat-icon bg-success-subtle">
+                                <i class="fas fa-check-circle text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Distribution & Anomaly Detection -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Risk Score Distribution</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary active"
+                                    onclick="updateDistChart('today')">Today</button>
+                                <button class="btn btn-outline-secondary" onclick="updateDistChart('week')">This
+                                    Week</button>
+                                <button class="btn btn-outline-secondary" onclick="updateDistChart('month')">This
+                                    Month</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="riskDistributionChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Risk Categories</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="riskCategoriesChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Anomaly Detection -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Anomaly Detection Timeline</h5>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="refreshAnomalies()">
+                                <i class="fas fa-sync-alt me-1"></i>Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="anomalyChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Risk Factor Breakdown</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="riskFactorsChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent High-Risk Transactions -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold">Recent High-Risk Transactions</h5>
+                    <a href="transactions.html" class="btn btn-sm btn-outline-secondary">View All</a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Customer</th>
+                                <th>Amount</th>
+                                <th>Risk Score</th>
+                                <th>Risk Factors</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>TXN-847291</code></td>
+                                <td><a href="customer-detail.html">John Smith</a></td>
+                                <td class="fw-bold">$15,420.00</td>
+                                <td><span class="risk-badge critical">94</span></td>
+                                <td>
+                                    <span class="badge bg-danger me-1">Location</span>
+                                    <span class="badge bg-warning">Amount</span>
+                                </td>
+                                <td><span class="badge bg-danger">Blocked</span></td>
+                                <td>
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                            class="fas fa-eye"></i></a>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                        onclick="showAction('Review Transaction', 'Adding manual notes or modifying risk factors for this transaction.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>TXN-847290</code></td>
+                                <td><a href="customer-detail.html">Sarah Johnson</a></td>
+                                <td class="fw-bold">$8,900.00</td>
+                                <td><span class="risk-badge high">78</span></td>
+                                <td>
+                                    <span class="badge bg-warning me-1">Velocity</span>
+                                    <span class="badge bg-info">Device</span>
+                                </td>
+                                <td><span class="badge bg-warning">Review</span></td>
+                                <td>
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                            class="fas fa-eye"></i></a>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                        onclick="showAction('Review Transaction', 'Adding manual notes or modifying risk factors for this transaction.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>TXN-847289</code></td>
+                                <td><a href="customer-detail.html">Mike Chen</a></td>
+                                <td class="fw-bold">$6,750.00</td>
+                                <td><span class="risk-badge high">72</span></td>
+                                <td>
+                                    <span class="badge bg-warning">Time</span>
+                                </td>
+                                <td><span class="badge bg-warning">Review</span></td>
+                                <td>
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                            class="fas fa-eye"></i></a>
+                                    <button class="btn btn-sm btn-outline-secondary"
+                                        onclick="showAction('Review Transaction', 'Adding manual notes or modifying risk factors for this transaction.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/actions.js"></script>
+    <script src="js/app-seamless.js"></script>
+    <script>
+
+        async function fetchRiskData() {
+            try {
+                // 1. Fetch Stats for Cards and Distribution
+                const statsResponse = await fetch('/api/stats/dashboard');
+                const statsData = await statsResponse.json();
+
+                // Update Overview Cards
+                const kpiEls = document.querySelectorAll('.card h2');
+                if (kpiEls.length >= 4) {
+                    kpiEls[0].innerText = statsData.kpis.blocked;
+                    kpiEls[1].innerText = statsData.kpis.review;
+                    kpiEls[2].innerText = Math.round(statsData.kpis.total_txns * 0.15); // Mock medium for variety
+                    kpiEls[3].innerText = statsData.kpis.approved;
+                }
+
+                // Update Distribution Chart
+                riskDistChart.data.datasets[0].data = statsData.charts.risk_bins;
+                riskDistChart.update();
+
+                // 2. Fetch Recent High-Risk Transactions for Table
+                const response = await fetch('/api/transactions?limit=15');
+                const transactions = await response.json();
+
+                const tbody = document.querySelector('tbody');
+                tbody.innerHTML = '';
+
+                transactions.forEach(txn => {
+                    if (txn.risk_score < 40) return; // Only show significant risk
+
+                    const row = document.createElement('tr');
+                    const riskClass = txn.risk_score > 85 ? 'critical' : (txn.risk_score > 60 ? 'high' : 'medium');
+                    const status = txn.decision || txn.status || 'Review';
+                    const statusClass = (status === 'Blocked' || status === 'BLOCKED') ? 'bg-danger' :
+                        ((status === 'Review' || status === 'REVIEW') ? 'bg-warning' : 'bg-success');
+
+                    // Map AI reasoning
+                    let reasonBadges = '<span class="badge bg-secondary">System Check</span>';
+                    if (txn.reasons && txn.reasons.length > 0) {
+                        reasonBadges = txn.reasons.slice(0, 2).map(r =>
+                            `<span class="badge bg-secondary me-1" title="${r}">${r.substring(0, 20)}...</span>`
+                        ).join('');
+                    }
+
+                    row.innerHTML = `
+                        <td><code>${txn.transaction_id || txn.id}</code></td>
+                        <td>${txn.customer || 'Unknown'}</td>
+                        <td class="fw-bold">$${txn.amount || '0.00'}</td>
+                        <td><span class="risk-badge ${riskClass}">${txn.risk_score || 0}</span></td>
+                        <td>${reasonBadges}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td>
+                            <a href="transaction-detail.html?id=${txn.transaction_id || txn.id}" class="btn btn-sm btn-outline-primary"><i class="fas fa-eye"></i></a>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+            } catch (e) { console.error('Risk Data Errors:', e); }
+        }
+
+        // Initialize empty charts
+        const ctx1 = document.getElementById('riskDistributionChart').getContext('2d');
+        const riskDistChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['0-20', '21-40', '41-60', '61-80', '81-100'],
+                datasets: [{
+                    label: 'Transaction Count',
+                    data: [0, 0, 0, 0, 0],
+                    backgroundColor: ['#51cf66', '#4ecdc4', '#ffc107', '#ff6b6b', '#dc3545']
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } } }
+        });
+
+        // Mock Pie Chart for Categories (until backend provides real breakdown)
+        const ctx2 = document.getElementById('riskCategoriesChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Account Takeover', 'Card-Not-Present', 'Velocity Spike', 'Geo-Anomaly'],
+                datasets: [{
+                    data: [35, 25, 25, 15],
+                    backgroundColor: ['#dc3545', '#ffc107', '#0dcaf0', '#198754']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        fetchRiskData();
+        setInterval(fetchRiskData, 4000);
+
+        // ✅ REAL BACKEND HANDLERS
+        function handleConfigureRules() {
+            SwiftAI.showActionModal(
+                'Configure Fraud Rule',
+                'Create a new detection rule for the risk engine.',
+                [
+                    { id: 'name', label: 'RULE NAME', type: 'text', placeholder: 'e.g., High Value Block' },
+                    { id: 'condition', label: 'CONDITION logic', type: 'text', placeholder: 'e.g., amount > 5000' },
+                    { id: 'action', label: 'ACTION', type: 'select', options: ['Block', 'Review', 'Flag'] },
+                    { id: 'description', label: 'DESCRIPTION', type: 'textarea', placeholder: 'Reason for this rule...' }
+                ],
+                async (formData) => {
+                    await SwiftAI.createRule(formData);
+                }
+            );
+        }
+
+        function handleExportReport() {
+            SwiftAI.showActionModal(
+                'Export Risk Report',
+                'Generate and download a comprehensive risk analysis report.',
+                [
+                    { id: 'name', label: 'REPORT NAME', type: 'text', placeholder: 'Risk Analysis Q1' },
+                    { id: 'type', label: 'FORMAT', type: 'select', options: ['PDF', 'CSV', 'Excel'] },
+                    { id: 'description', label: 'NOTES', type: 'textarea' }
+                ],
+                async (formData) => {
+                    await SwiftAI.generateReport(formData);
+                }
+            );
+        }
+    </script>
+</body>
+
+</html>
+</body>
+
+</html>

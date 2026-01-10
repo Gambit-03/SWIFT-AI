@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Details - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2" href="#" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="fraud-alerts.html">Fraud Alerts</a></li>
+                <li class="breadcrumb-item active">ALT-8472</li>
+            </ol>
+        </nav>
+
+        <!-- Alert Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Alert #ALT-8472</h2>
+                <p class="text-muted mb-0">Large Transaction from High-Risk Country</p>
+            </div>
+            <div>
+                <span class="badge bg-danger fs-5 me-2">Critical Priority</span>
+                <span class="badge bg-warning fs-5">Open</span>
+            </div>
+        </div>
+
+        <!-- Alert Actions -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-2">Quick Actions</h6>
+                                <small class="text-muted">Choose an action to resolve this alert</small>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-success"
+                                    onclick="showAction('Approve Transaction', 'The transaction will be whitelisted and marked as legitimate.')">
+                                    <i class="fas fa-check me-2"></i>Approve Transaction
+                                </button>
+                                <button class="btn btn-danger"
+                                    onclick="showAction('Block Alert', 'This will block the user and initiate a full refund.', true)">
+                                    <i class="fas fa-ban me-2"></i>Block & Refund
+                                </button>
+                                <button class="btn btn-warning"
+                                    onclick="showAction('Escalate Alert', 'The alert will be assigned to a Senior Forensic Analyst.')">
+                                    <i class="fas fa-arrow-up me-2"></i>Escalate to Senior
+                                </button>
+                                <button class="btn btn-outline-secondary"
+                                    onclick="showAction('Assign Alert', 'Choose a team member to handle this investigation.', true)">
+                                    <i class="fas fa-user-plus me-2"></i>Assign to Team
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Details -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-info-circle me-2"></i>Alert Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <strong>Alert ID:</strong> ALT-8472
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Created:</strong> 2 minutes ago
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Transaction ID:</strong> <a href="transaction-detail.html">TXN-847291</a>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Customer ID:</strong> <a href="customer-detail.html">USR-45821</a>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Amount:</strong> <span class="text-danger fs-5">$15,420.00</span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Risk Score:</strong> <span class="risk-badge critical">94</span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Assigned To:</strong> Unassigned
+                            </div>
+                            <div class="col-md-6">
+                                <strong>SLA Deadline:</strong> <span class="text-danger">13 minutes remaining</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Risk Factors</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <i class="fas fa-globe text-danger me-2"></i>
+                                    <strong>Unusual Location</strong>
+                                    <span class="badge bg-danger ms-2">+35 points</span>
+                                </div>
+                                <span class="text-muted">88% confidence</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-danger" style="width: 88%"></div>
+                            </div>
+                            <small class="text-muted">First transaction from Nigeria. User's typical locations: New
+                                York, Los Angeles</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <i class="fas fa-dollar-sign text-danger me-2"></i>
+                                    <strong>Large Amount</strong>
+                                    <span class="badge bg-danger ms-2">+28 points</span>
+                                </div>
+                                <span class="text-muted">70% confidence</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-danger" style="width: 70%"></div>
+                            </div>
+                            <small class="text-muted">Amount is 3.5x above user's average of $450</small>
+                        </div>
+
+                        <div class="mb-0">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div>
+                                    <i class="fas fa-clock text-warning me-2"></i>
+                                    <strong>Unusual Time</strong>
+                                    <span class="badge bg-warning ms-2">+18 points</span>
+                                </div>
+                                <span class="text-muted">45% confidence</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: 45%"></div>
+                            </div>
+                            <small class="text-muted">Transaction at 2:45 AM, outside user's typical hours (2 PM - 8
+                                PM)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-map me-2"></i>Transaction Location</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="alertMap" style="height: 300px; border-radius: 8px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">ML Model Insights</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-2">Model Confidence</h6>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Fraud Probability</span>
+                                <strong class="text-danger">94%</strong>
+                            </div>
+                            <div class="progress mb-3" style="height: 12px;">
+                                <div class="progress-bar bg-danger" style="width: 94%"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-2">Feature Importance</h6>
+                            <canvas id="featureChart" height="200"></canvas>
+                        </div>
+
+                        <div>
+                            <h6 class="text-muted mb-2">Similar Cases</h6>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between">
+                                        <small><a href="#">ALT-8401</a></small>
+                                        <small class="text-muted">98% match</small>
+                                    </div>
+                                    <small class="text-muted">Confirmed Fraud</small>
+                                </div>
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between">
+                                        <small><a href="#">ALT-8356</a></small>
+                                        <small class="text-muted">95% match</small>
+                                    </div>
+                                    <small class="text-muted">Confirmed Fraud</small>
+                                </div>
+                                <div class="list-group-item px-0">
+                                    <div class="d-flex justify-content-between">
+                                        <small><a href="#">ALT-8298</a></small>
+                                        <small class="text-muted">89% match</small>
+                                    </div>
+                                    <small class="text-muted">False Positive</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Activity Log</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline-sm">
+                            <div class="timeline-item-sm">
+                                <div class="timeline-marker-sm bg-danger"></div>
+                                <div class="timeline-content-sm">
+                                    <small class="fw-bold">Alert Created</small><br>
+                                    <small class="text-muted">2 minutes ago</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item-sm">
+                                <div class="timeline-marker-sm bg-warning"></div>
+                                <div class="timeline-content-sm">
+                                    <small class="fw-bold">ML Analysis Complete</small><br>
+                                    <small class="text-muted">2 minutes ago</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item-sm">
+                                <div class="timeline-marker-sm bg-info"></div>
+                                <div class="timeline-content-sm">
+                                    <small class="fw-bold">Transaction Detected</small><br>
+                                    <small class="text-muted">2 minutes ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-comments me-2"></i>Investigation Notes</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <textarea class="form-control" rows="3" placeholder="Add investigation notes..."></textarea>
+                </div>
+                <button class="btn btn-danger"
+                    onclick="showAction('Add Note', 'Investigation note will be timestamped and added to the alert history.')"><i
+                        class="fas fa-paper-plane me-2"></i>Add Note</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+
+            document.getElementById('confirmActionBtn').onclick = function () {
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+                    alert('Action completed successfully!');
+                    btn.innerHTML = 'Proceed';
+                    btn.disabled = false;
+                }, 1500);
+            };
+        }
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        });
+
+        // Initialize Map
+        const map = L.map('alertMap').setView([6.5244, 3.3792], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        L.circleMarker([6.5244, 3.3792], {
+            radius: 15,
+            fillColor: '#dc3545',
+            color: '#fff',
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.7
+        }).addTo(map).bindPopup('<strong>Transaction Location</strong><br>Lagos, Nigeria');
+
+        // Feature Importance Chart
+        const ctx = document.getElementById('featureChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Location', 'Amount', 'Time', 'Device', 'Velocity'],
+                datasets: [{
+                    data: [35, 28, 18, 12, 7],
+                    backgroundColor: ['#dc3545', '#ff6b6b', '#ffc107', '#4ecdc4', '#20c997']
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+    </script>
+
+    <style>
+        .timeline-sm {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline-item-sm {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item-sm:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item-sm::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 8px;
+            bottom: -20px;
+            width: 2px;
+            background: #e9ecef;
+        }
+
+        .timeline-item-sm:last-child::before {
+            display: none;
+        }
+
+        .timeline-marker-sm {
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 0 0 2px #e9ecef;
+        }
+    </style>
+</body>
+
+</html>

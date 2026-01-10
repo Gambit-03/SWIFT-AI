@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Analytics - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="dashboard.html"><i
+                                class="fas fa-chart-line me-2"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="live-monitoring.html"><i
+                                class="fas fa-eye me-2"></i>Live Monitoring</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-2"></i>Fraud Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="transactions.html"><i
+                                class="fas fa-file-invoice me-2"></i>Transactions</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="customers.html"><i
+                                class="fas fa-user-circle me-2"></i>Customers</a></li>
+                    <li class="nav-item"><a class="nav-link active px-3" href="analytics.html"><i
+                                class="fas fa-chart-pie me-2"></i>Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="models.html"><i
+                                class="fas fa-brain me-2"></i>Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="settings.html"><i
+                                class="fas fa-cog me-2"></i>Settings</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-secondary" id="themeToggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="position-relative">
+                        <button class="btn btn-light position-relative">
+                            <i class="fas fa-bell"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">12</span>
+                        </button>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="32" height="32" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Advanced Analytics & Reports</h2>
+            <div>
+                <button class="btn btn-outline-secondary me-2" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>Print Report
+                </button>
+                <button class="btn btn-danger" onclick="exportReport()">
+                    <i class="fas fa-download me-2"></i>Export Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Date Range</label>
+                        <select class="form-select" id="dateRange" onchange="updateCharts()">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 90 Days</option>
+                            <option value="365">Last Year</option>
+                            <option value="custom">Custom Range</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Chart Type</label>
+                        <select class="form-select" id="chartType" onchange="changeChartType()">
+                            <option value="line">Line Chart</option>
+                            <option value="bar">Bar Chart</option>
+                            <option value="area">Area Chart</option>
+                            <option value="scatter">Scatter Plot</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Category Filter</label>
+                        <select class="form-select" id="categoryFilter" onchange="updateCharts()">
+                            <option value="all">All Categories</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="travel">Travel</option>
+                            <option value="food">Food & Dining</option>
+                            <option value="shopping">Shopping</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-semibold">Risk Level</label>
+                        <select class="form-select" id="riskFilter" onchange="updateCharts()">
+                            <option value="all">All Risk Levels</option>
+                            <option value="critical">Critical Only</option>
+                            <option value="high">High & Above</option>
+                            <option value="medium">Medium & Above</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Total Fraud Detected</p>
+                                <h2 class="mb-0 fw-bold">1,247</h2>
+                                <small class="text-danger"><i class="fas fa-arrow-up"></i> 15% from last period</small>
+                            </div>
+                            <div class="stat-icon bg-danger-subtle">
+                                <i class="fas fa-shield-halved text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Loss Prevented</p>
+                                <h2 class="mb-0 fw-bold">$2.4M</h2>
+                                <small class="text-success"><i class="fas fa-arrow-up"></i> 26% from last period</small>
+                            </div>
+                            <div class="stat-icon bg-success-subtle">
+                                <i class="fas fa-dollar-sign text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">False Positive Rate</p>
+                                <h2 class="mb-0 fw-bold">1.8%</h2>
+                                <small class="text-success"><i class="fas fa-arrow-down"></i> 0.5% from last
+                                    period</small>
+                            </div>
+                            <div class="stat-icon bg-warning-subtle">
+                                <i class="fas fa-percentage text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted mb-2 fw-semibold">Detection Accuracy</p>
+                                <h2 class="mb-0 fw-bold">98.7%</h2>
+                                <small class="text-success"><i class="fas fa-arrow-up"></i> 0.85% from last
+                                    period</small>
+                            </div>
+                            <div class="stat-icon bg-info-subtle">
+                                <i class="fas fa-bullseye text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Charts -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Fraud Trends Over Time</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary"
+                                    onclick="toggleDataset('detected')">Detected</button>
+                                <button class="btn btn-outline-secondary"
+                                    onclick="toggleDataset('prevented')">Prevented</button>
+                                <button class="btn btn-outline-secondary" onclick="toggleDataset('false')">False
+                                    Positives</button>
+                                <button class="btn btn-outline-secondary active"
+                                    onclick="toggleDataset('all')">All</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="trendsChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Fraud by Category</h5>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="switchCategoryView()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Analytics -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Hourly Distribution</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary active"
+                                    onclick="updateHourlyChart('fraud')">Fraud</button>
+                                <button class="btn btn-outline-secondary"
+                                    onclick="updateHourlyChart('legitimate')">Legitimate</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="hourlyChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Geographic Distribution</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary active"
+                                    onclick="updateGeoChart('count')">Count</button>
+                                <button class="btn btn-outline-secondary"
+                                    onclick="updateGeoChart('amount')">Amount</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="geoChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Metrics -->
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Risk Score Distribution</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="riskDistChart" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Detection Methods</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="methodsChart" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Response Time Analysis</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="responseChart" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dark Mode Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('themeIcon').classList.remove('fa-moon');
+                document.getElementById('themeIcon').classList.add('fa-sun');
+            }
+        });
+
+        // Chart instances
+        let trendsChart, categoryChart, hourlyChart, geoChart, riskDistChart, methodsChart, responseChart;
+
+        // Trends Chart
+        const ctx1 = document.getElementById('trendsChart').getContext('2d');
+        trendsChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Detected',
+                    data: [320, 350, 380, 420],
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'Prevented',
+                    data: [280, 310, 340, 380],
+                    borderColor: '#51cf66',
+                    backgroundColor: 'rgba(81, 207, 102, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }, {
+                    label: 'False Positives',
+                    data: [15, 12, 10, 8],
+                    borderColor: '#ffc107',
+                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // Category Chart
+        const ctx2 = document.getElementById('categoryChart').getContext('2d');
+        categoryChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Geo-Velocity', 'Large Amount', 'Unusual Time', 'New Device', 'Velocity Checks'],
+                datasets: [{
+                    data: [35, 28, 18, 12, 7],
+                    backgroundColor: ['#dc3545', '#ff6b6b', '#ffc107', '#4ecdc4', '#20c997']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // Hourly Chart
+        const ctx3 = document.getElementById('hourlyChart').getContext('2d');
+        hourlyChart = new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['12AM', '3AM', '6AM', '9AM', '12PM', '3PM', '6PM', '9PM'],
+                datasets: [{
+                    label: 'Fraud Transactions',
+                    data: [45, 78, 23, 12, 15, 18, 25, 38],
+                    backgroundColor: '#dc3545'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Geographic Chart
+        const ctx4 = document.getElementById('geoChart').getContext('2d');
+        geoChart = new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['Nigeria', 'Russia', 'China', 'Brazil', 'India', 'USA'],
+                datasets: [{
+                    label: 'Fraud Count',
+                    data: [247, 189, 156, 134, 98, 67],
+                    backgroundColor: ['#dc3545', '#ff6b6b', '#ffc107', '#4ecdc4', '#20c997', '#51cf66']
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Risk Distribution Chart
+        const ctx5 = document.getElementById('riskDistChart').getContext('2d');
+        riskDistChart = new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: ['0-20', '21-40', '41-60', '61-80', '81-100'],
+                datasets: [{
+                    label: 'Transactions',
+                    data: [1200, 850, 450, 320, 180],
+                    backgroundColor: ['#51cf66', '#4ecdc4', '#ffc107', '#ff6b6b', '#dc3545']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Detection Methods Chart
+        const ctx6 = document.getElementById('methodsChart').getContext('2d');
+        methodsChart = new Chart(ctx6, {
+            type: 'pie',
+            data: {
+                labels: ['ML Model', 'Rule-Based', 'Manual Review', 'Hybrid'],
+                datasets: [{
+                    data: [65, 20, 8, 7],
+                    backgroundColor: ['#dc3545', '#ffc107', '#4ecdc4', '#20c997']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+
+        // Response Time Chart
+        const ctx7 = document.getElementById('responseChart').getContext('2d');
+        responseChart = new Chart(ctx7, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Avg Response Time (min)',
+                    data: [18, 15, 12, 10],
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Interactive Functions
+        function updateCharts() {
+            console.log('Updating charts with new filters...');
+        }
+
+        function changeChartType() {
+            const type = document.getElementById('chartType').value;
+            trendsChart.config.type = type === 'area' ? 'line' : type;
+            trendsChart.update();
+        }
+
+        function toggleDataset(dataset) {
+            // Toggle visibility of datasets
+            console.log('Toggling dataset:', dataset);
+        }
+
+        function switchCategoryView() {
+            categoryChart.config.type = categoryChart.config.type === 'doughnut' ? 'bar' : 'doughnut';
+            categoryChart.update();
+        }
+
+        function updateHourlyChart(type) {
+            const data = type === 'fraud' ?
+                [45, 78, 23, 12, 15, 18, 25, 38] :
+                [120, 80, 150, 280, 320, 350, 280, 180];
+            hourlyChart.data.datasets[0].data = data;
+            hourlyChart.data.datasets[0].label = type === 'fraud' ? 'Fraud Transactions' : 'Legitimate Transactions';
+            hourlyChart.data.datasets[0].backgroundColor = type === 'fraud' ? '#dc3545' : '#51cf66';
+            hourlyChart.update();
+        }
+
+        function updateGeoChart(metric) {
+            const data = metric === 'count' ?
+                [247, 189, 156, 134, 98, 67] :
+                [1.2, 0.9, 0.8, 0.7, 0.5, 0.3];
+            geoChart.data.datasets[0].data = data;
+            geoChart.data.datasets[0].label = metric === 'count' ? 'Fraud Count' : 'Amount (M)';
+            geoChart.update();
+        }
+
+        function exportReport() {
+            alert('Exporting report as PDF...');
+        }
+    </script>
+</body>
+
+</html>

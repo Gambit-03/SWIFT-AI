@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking System Test - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="text-center mb-4">🏦 Banking System Test</h2>
+
+        <div class="row g-4">
+            <!-- Create Customer Account -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Create Customer Account</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="customerForm">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="custEmail" value="customer@test.com"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Initial Balance</label>
+                                <input type="number" class="form-control" id="custBalance" value="10000" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Create Customer Account</button>
+                        </form>
+                        <div id="custResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Create Merchant Account -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Create Merchant Account</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="merchantForm">
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="merchEmail" value="merchant@test.com"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Initial Balance</label>
+                                <input type="number" class="form-control" id="merchBalance" value="0" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Create Merchant Account</button>
+                        </form>
+                        <div id="merchResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfer Money -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-warning">
+                        <h5 class="mb-0">Test Money Transfer</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="transferForm">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">From (Customer Email)</label>
+                                    <input type="email" class="form-control" id="fromEmail" value="customer@test.com"
+                                        required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">To (Merchant Email)</label>
+                                    <input type="email" class="form-control" id="toEmail" value="merchant@test.com"
+                                        required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label">Amount</label>
+                                    <input type="number" class="form-control" id="amount" value="500" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" id="category" required>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Shopping">Shopping</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="description" value="Test payment">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-warning w-100">Transfer Money</button>
+                        </form>
+                        <div id="transferResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check Balances -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">Check Account Balances</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-info me-2" onclick="checkBalance('customer@test.com')">Check Customer
+                            Balance</button>
+                        <button class="btn btn-info" onclick="checkBalance('merchant@test.com')">Check Merchant
+                            Balance</button>
+                        <div id="balanceResult" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create Customer Account
+        document.getElementById('customerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('custEmail').value;
+            const balance = document.getElementById('custBalance').value;
+
+            try {
+                const response = await fetch('/api/bank/create-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        user_type: 'Customer',
+                        initial_balance: parseFloat(balance)
+                    })
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('custResult');
+
+                if (result.success) {
+                    resultDiv.innerHTML = `<div class="alert alert-success">
+                        ✅ Account Created!<br>
+                        Account Number: ${result.account_number}<br>
+                        Balance: $${result.balance}
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-danger">❌ ${result.message}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('custResult').innerHTML = `<div class="alert alert-danger">Error: ${e.message}</div>`;
+            }
+        });
+
+        // Create Merchant Account
+        document.getElementById('merchantForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const email = document.getElementById('merchEmail').value;
+            const balance = document.getElementById('merchBalance').value;
+
+            try {
+                const response = await fetch('/api/bank/create-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        user_type: 'Merchant',
+                        initial_balance: parseFloat(balance)
+                    })
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('merchResult');
+
+                if (result.success) {
+                    resultDiv.innerHTML = `<div class="alert alert-success">
+                        ✅ Account Created!<br>
+                        Account Number: ${result.account_number}<br>
+                        Balance: $${result.balance}
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-danger">❌ ${result.message}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('merchResult').innerHTML = `<div class="alert alert-danger">Error: ${e.message}</div>`;
+            }
+        });
+
+        // Transfer Money
+        document.getElementById('transferForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const transferData = {
+                from_email: document.getElementById('fromEmail').value,
+                to_email: document.getElementById('toEmail').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                category: document.getElementById('category').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                const response = await fetch('/api/bank/transfer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(transferData)
+                });
+
+                const result = await response.json();
+                const resultDiv = document.getElementById('transferResult');
+
+                if (result.success) {
+                    resultDiv.innerHTML = `<div class="alert alert-success">
+                        ✅ Transfer Successful!<br>
+                        Transaction ID: ${result.transaction_id}<br>
+                        Status: ${result.status}<br>
+                        Risk Score: ${result.risk_score}<br>
+                        New Balance: $${result.new_balance}
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-danger">
+                        ❌ Transfer Failed!<br>
+                        Status: ${result.status}<br>
+                        Risk Score: ${result.risk_score}<br>
+                        Reason: ${result.decision}<br>
+                        Details: ${result.reasons ? result.reasons.join(', ') : 'N/A'}
+                    </div>`;
+                }
+            } catch (e) {
+                document.getElementById('transferResult').innerHTML = `<div class="alert alert-danger">Error: ${e.message}</div>`;
+            }
+        });
+
+        // Check Balance
+        async function checkBalance(email) {
+            try {
+                const response = await fetch(`/api/bank/account/${email}`);
+                const account = await response.json();
+
+                const resultDiv = document.getElementById('balanceResult');
+
+                if (account && account.account_number) {
+                    resultDiv.innerHTML = `<div class="alert alert-info">
+                        <strong>${email}</strong><br>
+                        Account Number: ${account.account_number}<br>
+                        Balance: $${account.balance.toFixed(2)}<br>
+                        Type: ${account.user_type}<br>
+                        Status: ${account.status}
+                    </div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="alert alert-warning">Account not found for ${email}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('balanceResult').innerHTML = `<div class="alert alert-danger">Error: ${e.message}</div>`;
+            }
+        }
+    </script>
+</body>
+
+</html>

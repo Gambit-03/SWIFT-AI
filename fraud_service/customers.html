@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Profiles - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+    <style>
+        .risk-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .risk-dot.low {
+            background: #20c997;
+        }
+
+        .risk-dot.medium {
+            background: #ffc107;
+        }
+
+        .risk-dot.high {
+            background: #fd7e14;
+        }
+
+        .risk-dot.critical {
+            background: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2 active" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item active" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Customer Profiles</h2>
+                <p class="text-muted mb-0">Manage 1.2M user identities and behavioral profiles.</p>
+            </div>
+            <button class="btn btn-danger"
+                onclick="showAction('Create Profile', 'Open registration form for a new identity?', true)"><i
+                    class="fas fa-user-plus me-2"></i>Create New Profile</button>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i
+                                    class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0"
+                                placeholder="Search by name, email, or device ID...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option>All Risk Categories</option>
+                            <option>Critical Risk (Top 1%)</option>
+                            <option>High Risk</option>
+                            <option>Verified Safe</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-outline-secondary w-100">Reset Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- User Card 1 -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <span class="badge bg-danger">Critical Risk</span>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?name=John+Doe&background=random"
+                            class="rounded-circle mb-3 mt-2" width="80" height="80" alt="JD">
+                        <h5 class="fw-bold mb-1">John Doe</h5>
+                        <p class="text-muted small mb-3">j.doe@example.com</p>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <small class="text-muted d-block">Transactions</small>
+                                <span class="fw-bold">1,245</span>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Lifetime Value</small>
+                                <span class="fw-bold">$54,200</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="px-3">
+                                <small class="text-muted d-block">Risk Score</small>
+                                <h4 class="text-danger fw-bold">94</h4>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <a href="customer-detail.html" class="btn btn-light">View Full Profile</a>
+                            <button class="btn btn-outline-danger"
+                                onclick="showAction('Block John Doe', 'Suspend John Doe for suspicious activity?')">Block
+                                Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Card 2 -->
+            <div class="col-xl-3 col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="position-absolute top-0 end-0 p-2">
+                            <span class="badge bg-success">Verified</span>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?name=Sarah+Smith&background=random"
+                            class="rounded-circle mb-3 mt-2" width="80" height="80" alt="SS">
+                        <h5 class="fw-bold mb-1">Sarah Smith</h5>
+                        <p class="text-muted small mb-3">sarah.s@mail.com</p>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <small class="text-muted d-block">Transactions</small>
+                                <span class="fw-bold">89</span>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Lifetime Value</small>
+                                <span class="fw-bold">$2,100</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="px-3">
+                                <small class="text-muted d-block">Risk Score</small>
+                                <h4 class="text-success fw-bold">12</h4>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <a href="customer-detail.html" class="btn btn-light">View Full Profile</a>
+                            <button class="btn btn-outline-secondary"
+                                onclick="showAction('Trusted Status', 'Grant Sarah Smith trusted status?')">Grant
+                                Trusted Status</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More cards... -->
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Detail Modal -->
+    <div class="modal fade" id="customerDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold">Customer Blueprint</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4" id="customerDetailBody">
+                    <div class="text-center p-5">
+                        <i class="fas fa-spinner fa-spin fs-1 text-danger"></i>
+                        <p class="mt-3 text-muted">Retrieving identity data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app-seamless.js"></script>
+    <script>
+        async function fetchCustomers() {
+            try {
+                const response = await fetch('/api/customers');
+                const customers = await response.json();
+
+                const container = document.querySelector('.row.g-4');
+                container.innerHTML = '';
+
+                if (customers.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center text-muted py-5"><h5>No customer profiles found. Start transactions to generate profiles.</h5></div>';
+                    return;
+                }
+
+                customers.forEach(cust => {
+                    const col = document.createElement('div');
+                    col.className = 'col-xl-3 col-md-6';
+                    const riskClass = cust.risk_score > 85 ? 'danger' : (cust.risk_score > 60 ? 'warning' : 'success');
+                    const riskText = cust.risk_score > 85 ? 'Critical Risk' : (cust.risk_score > 60 ? 'High Risk' : 'Verified');
+                    const avatar = `https://ui-avatars.com/api/?name=${cust.name.replace(' ', '+')}&background=random`;
+
+                    col.innerHTML = `
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <span class="badge bg-${riskClass}">${riskText}</span>
+                                </div>
+                                <img src="${avatar}" class="rounded-circle mb-3 mt-2" width="80" height="80" alt="${cust.name}">
+                                <h5 class="fw-bold mb-1">${cust.name}</h5>
+                                <p class="text-muted small mb-3">${cust.name.toLowerCase().replace(' ', '@')}@swift-ai.io</p>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6"><small class="text-muted d-block">Transactions</small><span class="fw-bold">${cust.txn_count}</span></div>
+                                    <div class="col-6"><small class="text-muted d-block">Value</small><span class="fw-bold">$${cust.total_spent.toLocaleString()}</span></div>
+                                </div>
+                                <div class="d-flex justify-content-center mb-4">
+                                    <div class="px-3"><small class="text-muted d-block">AI Risk Score</small><h4 class="text-${riskClass} fw-bold">${cust.risk_score}</h4></div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button onclick="viewCustomer('${cust.name}', '${cust.risk_score}')" class="btn btn-light">View Full Profile</button>
+                                    <button class="btn btn-outline-danger" onclick="showAction('Block Account', 'Suspend ${cust.name}?')">Block Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(col);
+                });
+            } catch (e) { console.error('Customer Sync Error:', e); }
+        }
+
+        function viewCustomer(name, score) {
+            const modal = new bootstrap.Modal(document.getElementById('customerDetailModal'));
+            modal.show();
+            // Mock detail rendering
+            document.getElementById('customerDetailBody').innerHTML = `<div class="text-center p-5"><h3 class="fw-bold">${name}</h3><p>Risk Score: ${score}</p><button class="btn btn-danger" data-bs-dismiss="modal">Close</button></div>`;
+        }
+
+        fetchCustomers();
+        setInterval(fetchCustomers, 10000);
+    </script>
+</body>
+
+</html>

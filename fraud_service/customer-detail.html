@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Profile - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2 active" href="#" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item active" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="customers.html">Customers</a></li>
+                <li class="breadcrumb-item active">USR-45821</li>
+            </ol>
+        </nav>
+
+        <!-- Customer Header -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center">
+                        <img src="https://ui-avatars.com/api/?name=John+Smith&background=20c997&color=fff&size=120"
+                            class="rounded-circle mb-3" alt="Customer">
+                        <h4 class="fw-bold mb-1">John Smith</h4>
+                        <p class="text-muted mb-2"><code>USR-45821</code></p>
+                        <div class="d-flex justify-content-center gap-2 mb-3">
+                            <span class="badge bg-success">Verified</span>
+                            <span class="badge bg-danger">High Risk</span>
+                        </div>
+
+                        <div class="text-start mb-3">
+                            <div class="mb-2"><i class="fas fa-envelope me-2 text-muted"></i> john.smith@email.com</div>
+                            <div class="mb-2"><i class="fas fa-phone me-2 text-muted"></i> +1 (555) 123-4567</div>
+                            <div class="mb-2"><i class="fas fa-location-dot me-2 text-muted"></i> New York, USA</div>
+                            <div class="mb-2"><i class="fas fa-calendar me-2 text-muted"></i> Member since Jan 2024
+                            </div>
+                            <div class="mb-2"><i class="fas fa-birthday-cake me-2 text-muted"></i> Age: 34</div>
+                        </div>
+
+                        <hr>
+
+                        <div class="row text-center mb-3">
+                            <div class="col-6">
+                                <h6 class="text-muted mb-1">Total Spent</h6>
+                                <h4 class="fw-bold">$45,231</h4>
+                            </div>
+                            <div class="col-6">
+                                <h6 class="text-muted mb-1">Transactions</h6>
+                                <h4 class="fw-bold">1,247</h4>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-danger"
+                                onclick="showAction('Block Customer', 'This will prevent the user from performing any further transactions and lock their account.', true)"><i
+                                    class="fas fa-ban me-2"></i>Block Customer</button>
+                            <button class="btn btn-outline-secondary"
+                                onclick="showAction('Send Message', 'Compose a message to be sent to the customer\'s registered email.', true)"><i
+                                    class="fas fa-envelope me-2"></i>Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="row g-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <i class="fas fa-exclamation-triangle text-danger fs-1 mb-2"></i>
+                                <h6 class="text-muted mb-1">Risk Score</h6>
+                                <h2 class="fw-bold text-danger">94</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <i class="fas fa-flag text-warning fs-1 mb-2"></i>
+                                <h6 class="text-muted mb-1">Fraud Alerts</h6>
+                                <h2 class="fw-bold text-warning">23</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <i class="fas fa-check-circle text-success fs-1 mb-2"></i>
+                                <h6 class="text-muted mb-1">Approved</h6>
+                                <h2 class="fw-bold text-success">1,224</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-0 shadow-sm text-center">
+                            <div class="card-body">
+                                <i class="fas fa-dollar-sign text-info fs-1 mb-2"></i>
+                                <h6 class="text-muted mb-1">Avg. Amount</h6>
+                                <h2 class="fw-bold text-info">$450</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#overview">Overview</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#behavior">Behavior</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#devices">Devices</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#locations">Locations</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="overview">
+                                <h6 class="fw-bold mb-3">Account Summary</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Account Status:</strong> Active
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>KYC Status:</strong> <span class="badge bg-success">Verified</span>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Last Login:</strong> 2 hours ago
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Last Transaction:</strong> 2 minutes ago
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Payment Methods:</strong> 3 cards
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <strong>Linked Accounts:</strong> 2 bank accounts
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="behavior">
+                                <h6 class="fw-bold mb-3">Behavioral Patterns</h6>
+                                <canvas id="behaviorChart" height="60"></canvas>
+                            </div>
+                            <div class="tab-pane fade" id="devices">
+                                <h6 class="fw-bold mb-3">Registered Devices</h6>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-mobile fs-4 me-3 text-primary"></i>
+                                                <strong>iPhone 14</strong>
+                                                <br><small class="text-muted ms-5">iOS 17.2 • Last used: 2 min
+                                                    ago</small>
+                                            </div>
+                                            <span class="badge bg-success">Active</span>
+                                        </div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <i class="fas fa-laptop fs-4 me-3 text-info"></i>
+                                                <strong>MacBook Pro</strong>
+                                                <br><small class="text-muted ms-5">macOS 14.0 • Last used: 3 days
+                                                    ago</small>
+                                            </div>
+                                            <span class="badge bg-secondary">Inactive</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="locations">
+                                <h6 class="fw-bold mb-3">Transaction Locations</h6>
+                                <canvas id="locationsChart" height="60"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Recent Transactions</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary active">All</button>
+                                <button class="btn btn-outline-secondary">Approved</button>
+                                <button class="btn btn-outline-secondary">Flagged</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Amount</th>
+                                        <th>Merchant</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>TXN-847291</code></td>
+                                        <td class="fw-bold text-danger">$15,420.00</td>
+                                        <td>Electronics Store</td>
+                                        <td>2 min ago</td>
+                                        <td><span class="badge bg-danger">Blocked</span></td>
+                                        <td><a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>TXN-847245</code></td>
+                                        <td class="fw-bold">$245.50</td>
+                                        <td>Amazon</td>
+                                        <td>1 day ago</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td><a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>TXN-847198</code></td>
+                                        <td class="fw-bold">$89.99</td>
+                                        <td>Starbucks</td>
+                                        <td>2 days ago</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td><a href="transaction-detail.html" class="btn btn-sm btn-outline-primary"><i
+                                                    class="fas fa-eye"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Spending Pattern</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="spendingChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+
+            document.getElementById('confirmActionBtn').onclick = function () {
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+                    alert('Action completed successfully!');
+                    btn.innerHTML = 'Proceed';
+                    btn.disabled = false;
+                }, 1500);
+            };
+        }
+
+        // Dark Mode Toggle
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+        });
+
+        // Behavior Chart
+        const ctx1 = document.getElementById('behaviorChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Transaction Count',
+                    data: [12, 15, 8, 14, 18, 5, 3],
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Locations Chart
+        const ctx2 = document.getElementById('locationsChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['New York', 'Los Angeles', 'Chicago', 'Lagos'],
+                datasets: [{
+                    label: 'Transactions',
+                    data: [450, 230, 120, 1],
+                    backgroundColor: ['#20c997', '#4ecdc4', '#51cf66', '#dc3545']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // Spending Chart
+        const ctx3 = document.getElementById('spendingChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: ['Electronics', 'Food', 'Shopping', 'Travel', 'Other'],
+                datasets: [{
+                    data: [15420, 2340, 5670, 8900, 3450],
+                    backgroundColor: ['#dc3545', '#ffc107', '#20c997', '#4ecdc4', '#51cf66']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    </script>
+</body>
+
+</html>

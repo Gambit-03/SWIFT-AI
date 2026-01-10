@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Models - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="models.html"><i
+                                class="fas fa-brain me-1"></i> Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2" href="#" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">ML Models & Detection Rules</h2>
+            <div>
+                <button class="btn btn-outline-danger me-2"
+                    onclick="showAction('Upload Model', 'Select a model file (.pkl, .h5, .onnx) to deploy to the inference engine.', true)"><i
+                        class="fas fa-upload me-2"></i>Upload Model</button>
+                <button class="btn btn-danger" onclick="handleCreateRule()"><i class="fas fa-plus me-2"></i>Create
+                    Rule</button>
+            </div>
+        </div>
+
+        <!-- Active Models -->
+        <div class="row g-4 mb-4" id="modelsContainer">
+            <div class="col-12 text-center text-muted py-5">
+                <div class="spinner-border text-primary mb-3" role="status"></div>
+                <p>Loading real active models...</p>
+            </div>
+        </div>
+
+        <!-- Detection Rules -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="mb-0 fw-bold">Active Detection Rules</h5>
+                    <button class="btn btn-danger btn-sm"
+                        onclick="showAction('Add Detection Rule', 'Create a new business rule for the AI detection engine.', true)"><i
+                            class="fas fa-plus me-2"></i>Add Rule</button>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Rule Name</th>
+                                <th>Condition</th>
+                                <th>Risk Score Impact</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Large Transaction</strong></td>
+                                <td><code>amount > $10,000</code></td>
+                                <td><span class="badge bg-danger">+35</span></td>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td><span class="badge bg-success"><i class="fas fa-toggle-on me-1"></i>Active</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>High-Risk Country</strong></td>
+                                <td><code>location in risk_countries</code></td>
+                                <td><span class="badge bg-danger">+28</span></td>
+                                <td><span class="badge bg-danger">Critical</span></td>
+                                <td><span class="badge bg-success"><i class="fas fa-toggle-on me-1"></i>Active</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="showAction('Edit Rule', 'Modify the logic or impact of this detection rule.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="showAction('Delete Rule', 'Are you sure you want to permanently remove this detection rule?')"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Unusual Time</strong></td>
+                                <td><code>hour < 6 OR hour > 23</code></td>
+                                <td><span class="badge bg-warning">+18</span></td>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td><span class="badge bg-success"><i class="fas fa-toggle-on me-1"></i>Active</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="showAction('Edit Rule', 'Modify the logic or impact of this detection rule.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="showAction('Delete Rule', 'Are you sure you want to permanently remove this detection rule?')"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>New Device</strong></td>
+                                <td><code>device_fingerprint not in history</code></td>
+                                <td><span class="badge bg-warning">+15</span></td>
+                                <td><span class="badge bg-warning">High</span></td>
+                                <td><span class="badge bg-success"><i class="fas fa-toggle-on me-1"></i>Active</span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary"
+                                        onclick="showAction('Edit Rule', 'Modify the logic or impact of this detection rule.', true)"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger"
+                                        onclick="showAction('Delete Rule', 'Are you sure you want to permanently remove this detection rule?')"><i
+                                            class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function fetchModels() {
+            try {
+                const response = await fetch('/api/models');
+                const models = await response.json();
+
+                const container = document.querySelector('.row.g-4.mb-4');
+                container.innerHTML = '';
+
+                models.forEach(model => {
+                    const col = document.createElement('div');
+                    col.className = 'col-lg-6';
+
+                    col.innerHTML = `
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="card-header bg-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0 fw-bold">${model.name}</h5>
+                                    <span class="badge bg-${model.status === 'Active' ? 'success' : 'warning'}"><i class="fas fa-circle me-1"></i>${model.status}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-3">${model.type} logic serving in production.</p>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <h6 class="text-muted mb-1">Accuracy</h6>
+                                        <h4 class="fw-bold text-success">${model.accuracy}%</h4>
+                                    </div>
+                                    <div class="col-6">
+                                        <h6 class="text-muted mb-1">Last Trained</h6>
+                                        <h4 class="fw-bold text-info">${model.last_train}</h4>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <h6 class="mb-2">Performance Metrics</h6>
+                                    <div class="mb-2">
+                                        <div class="d-flex justify-content-between mb-1"><small>Precision</small><small class="fw-bold">96.3%</small></div>
+                                        <div class="progress" style="height: 6px;"><div class="progress-bar bg-success" style="width: 96.3%"></div></div>
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="showAction('Retrain', 'Queue ${model.name} for retraining?')"><i class="fas fa-sync me-1"></i>Retrain</button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="showAction('Deactivate', 'Stop ${model.name}?')"><i class="fas fa-power-off me-1"></i>Deactivate</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(col);
+                });
+            } catch (e) { console.error('Model Sync Error:', e); }
+        }
+
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+
+            document.getElementById('confirmActionBtn').onclick = function () {
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+                    btn.innerHTML = 'Proceed';
+                    btn.disabled = false;
+                }, 1000);
+            };
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+            fetchModels();
+        });
+
+        // Real Create Rule Handler
+        function handleCreateRule() {
+            SwiftAI.showActionModal(
+                'Create Detection Rule',
+                'Define a new logical condition for the risk scoring engine.',
+                [
+                    { id: 'name', label: 'RULE NAME', type: 'text', placeholder: 'e.g., High Amount Block' },
+                    { id: 'description', label: 'DESCRIPTION', type: 'textarea', placeholder: 'Describe the rule purpose...' },
+                    { id: 'condition', label: 'CONDITION', type: 'text', placeholder: 'e.g., amount > 10000' },
+                    { id: 'action', label: 'ACTION', type: 'text', placeholder: 'Block / Review / Flag' }
+                ],
+                async (formData) => {
+                    await SwiftAI.createRule(formData);
+                    fetchModels(); // Refresh the list
+                }
+            );
+        }
+    </script>
+    <script src="js/actions.js"></script>
+</body>
+
+</html>

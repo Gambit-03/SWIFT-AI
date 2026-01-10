@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Portal Simulation - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+    <style>
+        :root {
+            --card-bg: #fff;
+            --text-color: #212529;
+            --border-color: #e9ecef;
+            --card-inner-bg: #f8f9fa;
+        }
+
+        .bank-terminal {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+
+        body.dark-mode {
+            --card-bg: #1e2235;
+            --text-color: #fff;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --card-inner-bg: rgba(255, 255, 255, 0.05);
+            background-color: #0a0e1a;
+        }
+
+        .terminal-header {
+            border-bottom: 2px solid #dc3545;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .txn-card {
+            background: var(--card-inner-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .txn-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+        }
+
+        .status-sent {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .status-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .status-blocked {
+            background: #dc3545;
+            color: #fff;
+        }
+
+        .bank-controls {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .terminal-glow {
+            box-shadow: 0 0 15px rgba(220, 53, 69, 0.2);
+        }
+
+        body.dark-mode .terminal-glow {
+            box-shadow: 0 0 20px rgba(220, 53, 69, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI | <span class="text-muted small fw-normal">Bank Portal</span></span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="bank-portal.html"><i
+                                class="fas fa-university me-1"></i> Bank Terminal</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="kyc-portal.html"><i
+                                class="fas fa-id-card me-1"></i> KYC System</a></li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-3">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Bank+Admin&background=0d6efd&color=fff"
+                                class="rounded-circle me-2" width="28" height="28">
+                            <span>Bank Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="login-simulation.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Switch Identity</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row g-4">
+            <!-- Transaction Creation -->
+            <div class="col-lg-5">
+                <div class="bank-controls terminal-glow">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold mb-0 text-danger"><i class="fas fa-plus-circle me-2"></i>Initiate Transaction
+                        </h4>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="autoPilot" onchange="toggleAutoPilot()">
+                            <label class="form-check-label small fw-bold" for="autoPilot">AUTO-PILOT</label>
+                        </div>
+                    </div>
+                    <form id="txnForm">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">CUSTOMER IDENTITY</label>
+                            <select class="form-select bg-dark text-white border-secondary" id="custSelect">
+                                <option value="John Smith">John Smith (ID: 8842)</option>
+                                <option value="Sarah Johnson">Sarah Johnson (ID: 9912)</option>
+                                <option value="Unknown Guest">Anonymous/Guest User</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">AMOUNT ($)</label>
+                            <input type="number" class="form-control bg-dark text-white border-secondary" id="txnAmount"
+                                placeholder="e.g. 5000.00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">ORIGIN LOCATION</label>
+                            <select class="form-select bg-dark text-white border-secondary" id="txnLocation">
+                                <option value="Mumbai, IN">Mumbai, India</option>
+                                <option value="New York, US">New York, USA</option>
+                                <option value="London, UK">London, UK</option>
+                                <option value="High Risk Zone">High Risk Location (Anonymous Proxy)</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold text-muted">PAYMENT CHANNEL</label>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-outline-secondary w-100 channel-btn active"
+                                    data-channel="Web">Web</button>
+                                <button type="button" class="btn btn-outline-secondary w-100 channel-btn"
+                                    data-channel="Mobile">Mobile</button>
+                                <button type="button" class="btn btn-outline-secondary w-100 channel-btn"
+                                    data-channel="ATM">ATM</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-danger btn-lg w-100" id="sendBtn">
+                            <i class="fas fa-paper-plane me-2"></i>Send to Swift AI
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Outgoing Stream -->
+            <div class="col-lg-7">
+                <div class="bank-terminal h-100">
+                    <div class="terminal-header">
+                        <h4 class="fw-bold mb-0">Bank Processing Stream</h4>
+                        <span class="badge bg-success"><i class="fas fa-link me-1"></i> Connected to Core API</span>
+                    </div>
+                    <div id="txnStream" style="height: 500px; overflow-y: auto;">
+                        <div class="text-center text-muted mt-5">
+                            <i class="fas fa-satellite-dish fs-1 mb-3"></i>
+                            <p>Standing by for transactions...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app-seamless.js"></script>
+    <script>
+        const btnGroup = document.querySelectorAll('.channel-btn');
+        let selectedChannel = 'Web';
+        let autoPilotInterval = null;
+
+        btnGroup.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btnGroup.forEach(b => b.classList.remove('active', 'btn-danger'));
+                btnGroup.forEach(b => b.classList.add('btn-outline-secondary'));
+                btn.classList.add('active', 'btn-danger');
+                btn.classList.remove('btn-outline-secondary');
+                selectedChannel = btn.dataset.channel;
+            });
+        });
+
+        function toggleAutoPilot() {
+            const isAuto = document.getElementById('autoPilot').checked;
+            const btn = document.getElementById('sendBtn');
+
+            if (isAuto) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-robot me-2"></i>Auto-Pilot Active';
+                autoPilotInterval = setInterval(() => {
+                    generateTransaction();
+                }, 3000);
+                showNotification('Auto-Pilot', 'Autonomous transaction generation started.');
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send to Swift AI';
+                clearInterval(autoPilotInterval);
+                autoPilotInterval = null;
+                showNotification('Manual Mode', 'Auto-Pilot deactivated.');
+            }
+        }
+
+        async function generateTransaction(manualData = null) {
+            const stream = document.getElementById('txnStream');
+            const names = ['John Smith', 'Sarah Johnson', 'Mike Chen', 'Unknown Entity', 'Anonymous Proxy'];
+            const locations = ['Mumbai, IN', 'New York, US', 'London, UK', 'Dubai, UAE', 'High Risk Zone'];
+
+            const txnData = manualData || {
+                id: 'TXN-' + Math.floor(Math.random() * 900000 + 100000),
+                customer: names[Math.floor(Math.random() * names.length)],
+                amount: (Math.random() * 20000 + 10).toFixed(2),
+                location: locations[Math.floor(Math.random() * locations.length)],
+                channel: ['Web', 'Mobile', 'ATM'][Math.floor(Math.random() * 3)]
+            };
+
+            if (stream.querySelector('.text-center')) stream.innerHTML = '';
+
+            // 1. Create UI placeholder
+            const card = document.createElement('div');
+            card.className = 'txn-card animate__animated animate__fadeInDown';
+            card.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="mb-1 text-danger fw-bold">${txnData.id}</h6>
+                        <small class="text-muted fw-bold">${txnData.customer}</small>
+                        <div class="small fw-bold">$${txnData.amount} | ${txnData.channel}</div>
+                    </div>
+                    <div class="text-end">
+                        <div class="status-badge status-sent mb-1">SENT TO AI</div>
+                        <div class="small text-muted">${new Date().toLocaleTimeString()}</div>
+                    </div>
+                </div>
+                <div class="mt-2 small text-muted">
+                    <i class="fas fa-map-marker-alt me-1"></i> ${txnData.location}
+                </div>
+            `;
+            stream.prepend(card);
+            if (stream.children.length > 30) stream.lastChild.remove();
+
+            // 2. Call Backend API
+            try {
+                const response = await fetch('/api/transactions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(txnData)
+                });
+                const result = await response.json();
+
+                // 3. Update UI with Backend Decision
+                setTimeout(() => {
+                    const badge = card.querySelector('.status-badge');
+                    const serverTxn = result;
+
+                    if (serverTxn.status === 'Blocked') {
+                        badge.className = 'status-badge status-blocked';
+                        badge.innerText = `BLOCKED (SCORE: ${serverTxn.risk_score})`;
+                        card.style.borderLeft = '4px solid #dc3545';
+                    } else if (serverTxn.status === 'Review') {
+                        badge.className = 'status-badge bg-warning text-dark';
+                        badge.innerText = `REVIEW (SCORE: ${serverTxn.risk_score})`;
+                        card.style.borderLeft = '4px solid #ffc107';
+                    } else {
+                        badge.className = 'status-badge bg-success text-white';
+                        badge.innerText = 'APPROVED';
+                        card.style.borderLeft = '4px solid #198754';
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('Backend Error:', error);
+                log('System Error: Could not reach AI Backend', 'danger');
+            }
+        }
+
+        document.getElementById('txnForm').onsubmit = function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('sendBtn');
+            const txn = {
+                id: 'TXN-' + Math.floor(Math.random() * 900000 + 100000),
+                customer: document.getElementById('custSelect').value,
+                amount: document.getElementById('txnAmount').value,
+                location: document.getElementById('txnLocation').value,
+                channel: selectedChannel,
+                time: new Date().toLocaleTimeString()
+            };
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Encrypting...';
+
+            setTimeout(() => {
+                generateTransaction(txn);
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send to Swift AI';
+                document.getElementById('txnAmount').value = '';
+            }, 800);
+        };
+    </script>
+</body>
+
+</html>

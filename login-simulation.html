@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Persona Access - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+    <style>
+        :root {
+            --login-bg: radial-gradient(circle at center, #1e2235 0%, #0a0e1a 100%);
+            --card-bg: rgba(20, 24, 36, 0.8);
+            --text-color: #fff;
+        }
+
+        body.light-mode {
+            --login-bg: radial-gradient(circle at center, #f8f9fa 0%, #e9ecef 100%);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-color: #212529;
+        }
+
+        body {
+            background: var(--login-bg);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .persona-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
+            display: block;
+        }
+
+        body.light-mode .persona-btn {
+            background: #fff;
+            border-color: #e9ecef;
+        }
+
+        .persona-btn:hover {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: #dc3545;
+            transform: translateY(-10px);
+            color: inherit;
+        }
+
+        .persona-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .role-badge {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .theme-switch-wrapper {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <div class="theme-switch-wrapper">
+        <button class="btn btn-outline-secondary rounded-circle" id="themeToggle" onclick="toggleTheme()"
+            style="width: 45px; height: 45px;">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+    <div class="login-card animate__animated animate__zoomIn">
+        <div class="text-center mb-5">
+            <i class="fas fa-shield-halved text-danger fs-1 mb-3"></i>
+            <h2 class="fw-bold">Select Access Level</h2>
+            <p class="text-muted">Simulate the dashboard from different departmental perspectives.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Bank Admin -->
+            <div class="col-md-4">
+                <a href="bank-portal.html" class="persona-btn d-block">
+                    <i class="fas fa-university persona-icon text-primary"></i>
+                    <span class="role-badge text-primary mb-2 d-block">Operational</span>
+                    <h5 class="fw-bold">Bank Manager</h5>
+                    <p class="small text-muted mb-0">Initiate transactions and monitor outgoing bank streams.</p>
+                </a>
+            </div>
+
+            <!-- Fraud Specialist -->
+            <div class="col-md-4">
+                <a href="dashboard.html" class="persona-btn d-block">
+                    <i class="fas fa-user-shield persona-icon text-danger"></i>
+                    <span class="role-badge text-danger mb-2 d-block">Intelligence</span>
+                    <h5 class="fw-bold">Fraud Analyst</h5>
+                    <p class="small text-muted mb-0">Investigate high-risk scores and manage system alerts.</p>
+                </a>
+            </div>
+
+            <!-- KYC Regulatory -->
+            <div class="col-md-4">
+                <a href="kyc-portal.html" class="persona-btn d-block">
+                    <i class="fas fa-id-card-alt persona-icon text-info"></i>
+                    <span class="role-badge text-info mb-2 d-block">Compliance</span>
+                    <h5 class="fw-bold">KYC Officer</h5>
+                    <p class="small text-muted mb-0">Validate customer identifies and check document authenticity.</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <small class="text-muted">Swift AI Unified Authentication Shield v2.0</small>
+        </div>
+    </div>
+    <script src="js/app-seamless.js"></script>
+</body>
+
+</html>

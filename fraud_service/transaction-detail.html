@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2 active" href="#" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item active" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="transactions.html">Transactions</a></li>
+                <li class="breadcrumb-item active">TXN-847291</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Transaction Details</h2>
+            <div>
+                <button class="btn btn-outline-secondary me-2"
+                    onclick="showAction('Print Details', 'Preparing transaction dossier for printing.')"><i
+                        class="fas fa-print me-2"></i>Print</button>
+                <button class="btn btn-outline-secondary me-2"
+                    onclick="showAction('Export PDF', 'Generating a secure PDF report of this transaction.')"><i
+                        class="fas fa-download me-2"></i>Export PDF</button>
+                <button class="btn btn-danger"
+                    onclick="showAction('Report Fraud', 'This will flag the transaction for manual review and retrain the alert model.', true)"><i
+                        class="fas fa-flag me-2"></i>Report Fraud</button>
+            </div>
+        </div>
+
+        <!-- Transaction Overview -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1 fw-bold">Transaction #TXN-847291</h5>
+                                <small class="text-muted">Detected 2 minutes ago • Last updated: Just now</small>
+                            </div>
+                            <span class="badge bg-danger fs-6">Blocked</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3"><i class="fas fa-info-circle me-2"></i>Transaction Details
+                                </h6>
+                                <div class="mb-2"><strong>Amount:</strong> <span
+                                        class="text-danger fs-5">$15,420.00</span></div>
+                                <div class="mb-2"><strong>User ID:</strong> <a
+                                        href="customer-detail.html?id=USR-45821"><code>USR-45821</code></a></div>
+                                <div class="mb-2"><strong>Merchant:</strong> Electronics Store</div>
+                                <div class="mb-2"><strong>Category:</strong> <span
+                                        class="badge bg-primary">Electronics</span></div>
+                                <div class="mb-2"><strong>Payment Method:</strong> Credit Card ****4521</div>
+                                <div class="mb-2"><strong>Timestamp:</strong> 2026-01-08 22:45:12 UTC</div>
+                                <div class="mb-2"><strong>Transaction Type:</strong> Purchase</div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-muted mb-3"><i class="fas fa-map-marker-alt me-2"></i>Location & Device
+                                </h6>
+                                <div class="mb-2"><strong>Location:</strong> <i class="fas fa-location-dot me-1"></i>
+                                    Lagos, Nigeria</div>
+                                <div class="mb-2"><strong>IP Address:</strong> <code>197.210.85.42</code></div>
+                                <div class="mb-2"><strong>ISP:</strong> MTN Nigeria</div>
+                                <div class="mb-2"><strong>Device:</strong> <i class="fas fa-mobile me-1"></i> iPhone 14
+                                </div>
+                                <div class="mb-2"><strong>Browser:</strong> Safari 17.0</div>
+                                <div class="mb-2"><strong>OS:</strong> iOS 17.2</div>
+                                <div class="mb-2"><strong>Screen:</strong> 1170x2532</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-3">Risk Score</h6>
+                        <div class="position-relative d-inline-block">
+                            <canvas id="riskGauge" width="200" height="200"></canvas>
+                            <div class="position-absolute top-50 start-50 translate-middle">
+                                <h1 class="fw-bold text-danger mb-0">94</h1>
+                                <small class="text-muted">Critical</small>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Confidence:</span>
+                                <strong>98.7%</strong>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 98.7%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fraud Indicators -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Fraud Indicators</h5>
+                    <button class="btn btn-sm btn-outline-secondary" onclick="toggleDetails()">
+                        <i class="fas fa-info-circle me-1"></i>Show Details
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="p-3 bg-danger-subtle rounded">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-danger"><i class="fas fa-globe me-2"></i>Unusual Location</strong>
+                                <span class="badge bg-danger">+35</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-danger" style="width: 88%"></div>
+                            </div>
+                            <small class="text-muted">First transaction from Nigeria</small>
+                            <div class="mt-2" id="location-details" style="display: none;">
+                                <hr>
+                                <small><strong>Previous locations:</strong><br>
+                                    • New York, USA (45 transactions)<br>
+                                    • Los Angeles, USA (23 transactions)<br>
+                                    • Chicago, USA (12 transactions)</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-danger-subtle rounded">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-danger"><i class="fas fa-dollar-sign me-2"></i>Large Amount</strong>
+                                <span class="badge bg-danger">+28</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-danger" style="width: 70%"></div>
+                            </div>
+                            <small class="text-muted">3.5x above user average</small>
+                            <div class="mt-2" id="amount-details" style="display: none;">
+                                <hr>
+                                <small><strong>User's typical range:</strong><br>
+                                    • Average: $450<br>
+                                    • Median: $380<br>
+                                    • Max (last 30 days): $890</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-warning-subtle rounded">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-warning"><i class="fas fa-clock me-2"></i>Unusual Time</strong>
+                                <span class="badge bg-warning">+18</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: 45%"></div>
+                            </div>
+                            <small class="text-muted">Outside typical hours (2-6 AM)</small>
+                            <div class="mt-2" id="time-details" style="display: none;">
+                                <hr>
+                                <small><strong>User's typical hours:</strong><br>
+                                    • Peak: 2 PM - 8 PM<br>
+                                    • Weekend: 10 AM - 6 PM</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">User Transaction History</h5>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary active" onclick="updateHistoryChart('7days')">7
+                                    Days</button>
+                                <button class="btn btn-outline-secondary" onclick="updateHistoryChart('30days')">30
+                                    Days</button>
+                                <button class="btn btn-outline-secondary" onclick="updateHistoryChart('90days')">90
+                                    Days</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="historyChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">Similar Fraud Patterns</h5>
+                            <button class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-external-link-alt me-1"></i>View All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="patternsChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Timeline -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0 fw-bold"><i class="fas fa-history me-2"></i>Action Timeline</h5>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-danger"></div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">Transaction Blocked</h6>
+                            <p class="mb-1 text-muted">System automatically blocked transaction due to high risk score
+                                (94)</p>
+                            <small class="text-muted">2 minutes ago • Automated System</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-warning"></div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">Fraud Alert Generated</h6>
+                            <p class="mb-1 text-muted">Multiple fraud indicators detected, alert sent to fraud team</p>
+                            <small class="text-muted">2 minutes ago • ML Model v2.3</small>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker bg-info"></div>
+                        <div class="timeline-content">
+                            <h6 class="mb-1">Transaction Initiated</h6>
+                            <p class="mb-1 text-muted">User initiated payment of $15,420.00 from Lagos, Nigeria</p>
+                            <small class="text-muted">2 minutes ago • User: USR-45821</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function fetchTransactionDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const txnId = urlParams.get('id');
+            if (!txnId) return;
+
+            try {
+                const response = await fetch(`/api/transactions/${txnId}`);
+                const txn = await response.json();
+                if (txn.error) return;
+
+                // Update Breadcrumb and Header
+                document.querySelector('.breadcrumb-item.active').innerText = txn.id;
+                document.querySelector('.card-header h5').innerText = `Transaction #${txn.id}`;
+                document.querySelector('.card-header .badge').innerText = txn.status;
+                document.querySelector('.card-header .badge').className = `badge fs-6 ${txn.status === 'Blocked' ? 'bg-danger' : (txn.status === 'Review' ? 'bg-warning' : 'bg-success')}`;
+
+                // Update Details
+                const detailCols = document.querySelectorAll('.card-body .col-md-6');
+                detailCols[0].innerHTML = `
+                    <h6 class="text-muted mb-3"><i class="fas fa-info-circle me-2"></i>Transaction Details</h6>
+                    <div class="mb-2"><strong>Amount:</strong> <span class="text-${txn.status === 'Blocked' ? 'danger' : (txn.status === 'Review' ? 'warning' : 'success')} fs-5">$${txn.amount.toLocaleString()}</span></div>
+                    <div class="mb-2"><strong>User ID:</strong> <code>${txn.customer}</code></div>
+                    <div class="mb-2"><strong>Channel:</strong> <span class="badge bg-primary">${txn.channel}</span></div>
+                    <div class="mb-2"><strong>Timestamp:</strong> ${new Date(txn.timestamp).toLocaleString()}</div>
+                    <div class="mb-2"><strong>AI Reason:</strong> <span class="text-muted">${txn.ai_reason}</span></div>
+                `;
+
+                detailCols[1].innerHTML = `
+                    <h6 class="text-muted mb-3"><i class="fas fa-map-marker-alt me-2"></i>Location & Device</h6>
+                    <div class="mb-2"><strong>Location:</strong> <i class="fas fa-location-dot me-1"></i> ${txn.location}</div>
+                    <div class="mb-2"><strong>IP Address:</strong> <code>${(Math.random() * 255).toFixed(0)}.${(Math.random() * 255).toFixed(0)}.85.42</code></div>
+                    <div class="mb-2"><strong>Device:</strong> <i class="fas fa-mobile me-1"></i> iPhone 14 Pro</div>
+                `;
+
+                // Update Risk Score
+                document.querySelector('.translate-middle h1').innerText = txn.risk_score;
+                const riskColor = txn.risk_score > 85 ? '#dc3545' : (txn.risk_score > 60 ? '#ffc107' : '#198754');
+                document.querySelector('.translate-middle small').innerText = txn.status;
+
+                riskGaugeChart.data.datasets[0].data = [txn.risk_score, 100 - txn.risk_score];
+                riskGaugeChart.data.datasets[0].backgroundColor = [riskColor, '#e9ecef'];
+                riskGaugeChart.update();
+
+                // Update Progress Confidence
+                const confidence = 90 + Math.random() * 9;
+                document.querySelector('.progress-bar').style.width = confidence + '%';
+                document.querySelector('.progress-bar').innerText = confidence.toFixed(1) + '%';
+
+                // Update Indicators (Dynamic based on reasoning)
+                const indicatorsRow = document.querySelector('.card-body .row.g-3');
+                indicatorsRow.innerHTML = txn.ai_reason.split(', ').map(reason => `
+                    <div class="col-md-4">
+                        <div class="p-3 bg-danger-subtle rounded">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <strong class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>${reason}</strong>
+                                <span class="badge bg-danger">+${Math.floor(txn.risk_score / 2)}</span>
+                            </div>
+                            <small class="text-muted">High correlation with fraud patterns.</small>
+                        </div>
+                    </div>
+                `).join('') || '<div class="col-12 text-center text-muted">No high-risk indicators detected.</div>';
+
+            } catch (e) { console.error('Detail Fetch Error:', e); }
+        }
+
+        // Initialize Gauge
+        let riskGaugeChart;
+        const ctx1 = document.getElementById('riskGauge').getContext('2d');
+        riskGaugeChart = new Chart(ctx1, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [0, 100],
+                    backgroundColor: ['#dc3545', '#e9ecef'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: false,
+                cutout: '75%',
+                plugins: { legend: { display: false }, tooltip: { enabled: false } }
+            }
+        });
+
+        // Initialize History Chart (Mock for user context)
+        const ctx2 = document.getElementById('historyChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Transaction Amount ($)',
+                    data: [450, 520, 380, 490, 15420, 0, 0],
+                    backgroundColor: ['#20c997', '#20c997', '#20c997', '#20c997', '#dc3545', '#e9ecef', '#e9ecef']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } } }
+        });
+
+        fetchTransactionDetails();
+
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+        });
+    </script>
+
+    <style>
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 8px;
+            bottom: -30px;
+            width: 2px;
+            background: #e9ecef;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 2px #e9ecef;
+        }
+
+        body.dark-mode .timeline-item::before {
+            background: #1a1f2e;
+        }
+
+        body.dark-mode .timeline-marker {
+            border-color: #141824;
+            box-shadow: 0 0 0 2px #1a1f2e;
+        }
+    </style>
+</body>
+
+</html>

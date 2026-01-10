@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Explorer - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2 active" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item active" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Transaction Explorer</h2>
+                <p class="text-muted mb-0">Search and filter through historical transaction data.</p>
+            </div>
+            <button class="btn btn-outline-danger"
+                onclick="showAction('Export Dataset', 'This will prepare a full database dump of historical transactions.', true)"><i
+                    class="fas fa-file-export me-2"></i>Export Dataset</button>
+        </div>
+
+        <!-- Filters -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0"><i
+                                    class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0"
+                                placeholder="Search by ID, User, or Card...">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select">
+                            <option>All Status</option>
+                            <option>Approved</option>
+                            <option>Blocked</option>
+                            <option>Under Review</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-select">
+                            <option>All Risk Levels</option>
+                            <option>High (>70)</option>
+                            <option>Medium (30-70)</option>
+                            <option>Low (<30)< /option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger w-100">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Transaction ID</th>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Location</th>
+                                <th>Risk Score</th>
+                                <th>Status</th>
+                                <th class="text-end pe-4">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ps-4"><code>TXN-847291</code></td>
+                                <td>2026-01-09 00:05</td>
+                                <td>USR-45821</td>
+                                <td class="fw-bold">$15,420.00</td>
+                                <td><i class="fas fa-credit-card me-1"></i> **** 4521</td>
+                                <td>Lagos, NG</td>
+                                <td><span class="risk-badge critical">94</span></td>
+                                <td><span class="badge bg-danger">Blocked</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-light"><i
+                                            class="fas fa-arrow-right"></i></a>
+                                </td>
+                            </tr>
+                            <!-- Repeat rows -->
+                            <tr>
+                                <td class="ps-4"><code>TXN-847290</code></td>
+                                <td>2026-01-09 00:02</td>
+                                <td>USR-32109</td>
+                                <td class="fw-bold">$245.50</td>
+                                <td><i class="fas fa-credit-card me-1"></i> **** 8812</td>
+                                <td>New York, US</td>
+                                <td><span class="risk-badge high">67</span></td>
+                                <td><span class="badge bg-warning">Review</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-light"><i
+                                            class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4"><code>TXN-847289</code></td>
+                                <td>2026-01-08 23:58</td>
+                                <td>USR-78234</td>
+                                <td class="fw-bold">$89.99</td>
+                                <td><i class="fas fa-mobile-alt me-1"></i> Apple Pay</td>
+                                <td>London, UK</td>
+                                <td><span class="risk-badge low">12</span></td>
+                                <td><span class="badge bg-success">Approved</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="transaction-detail.html" class="btn btn-sm btn-light"><i
+                                            class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 py-3">
+                <nav class="d-flex justify-content-between align-items-center">
+                    <p class="mb-0 small text-muted">Showing 1 to 20 of 124,502 transactions</p>
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transaction Detail Modal -->
+    <div class="modal fade" id="txnDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title fw-bold">Transaction Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4" id="txnDetailBody">
+                    <!-- Dynamic content -->
+                    <div class="text-center p-5">
+                        <i class="fas fa-spinner fa-spin fs-1 text-danger"></i>
+                        <p class="mt-3 text-muted">Loading transaction blueprint...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app-seamless.js"></script>
+    <script>
+        async function fetchTransactionsDetailed() {
+            try {
+                const response = await fetch('/api/transactions?limit=50');
+                const transactions = await response.json();
+
+                const tbody = document.querySelector('tbody');
+                tbody.innerHTML = '';
+
+                transactions.forEach(txn => {
+                    const row = document.createElement('tr');
+                    // Format date properly
+                    let timeStr = 'N/A';
+                    if (txn.timestamp || txn.analyzed_at) {
+                        try {
+                            timeStr = new Date(txn.timestamp || txn.analyzed_at).toLocaleString();
+                        } catch (e) { }
+                    }
+
+                    // Map Backend Fields correctly
+                    const txnId = txn.transaction_id || txn.id || 'Unknown';
+                    const riskScore = txn.risk_score || 0;
+                    const status = txn.decision || txn.status || 'Review';
+
+                    const riskClass = riskScore > 80 ? 'critical' : (riskScore > 50 ? 'high' : 'low');
+                    const statusClass = (status === 'Blocked' || status === 'BLOCKED') ? 'bg-danger' :
+                        ((status === 'Review' || status === 'REVIEW') ? 'bg-warning' : 'bg-success');
+
+                    // Location & IP logic
+                    let locationDisplay = txn.location || 'Unknown';
+                    // If location is stored as an object
+                    if (typeof txn.location === 'object' && txn.location !== null) {
+                        locationDisplay = `${txn.location.city || ''}, ${txn.location.country || ''}`;
+                    }
+                    const ipDisplay = txn.ip_address || 'N/A';
+
+                    row.innerHTML = `
+                        <td class="ps-4"><code>${txnId}</code></td>
+                        <td>${timeStr}</td>
+                        <td>${txn.customer || 'Unknown'}</td>
+                        <td class="fw-bold">$${txn.amount || '0.00'}</td>
+                        <td><i class="fas fa-desktop me-1"></i> ${txn.channel || 'Web'}</td>
+                        <td>
+                            <div><i class="fas fa-map-marker-alt text-danger me-1"></i> ${locationDisplay}</div>
+                            <small class="text-muted" style="font-size: 0.8em;">IP: ${ipDisplay}</small>
+                        </td>
+                        <td><span class="risk-badge ${riskClass}">${riskScore}</span></td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                        <td class="text-end pe-4">
+                            <button onclick="viewTxn('${txnId}')" class="btn btn-sm btn-light"><i class="fas fa-eye"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (e) {
+                console.error('Fetch Transactions History Error:', e);
+            }
+        }
+
+        function viewTxn(id) {
+            const modal = new bootstrap.Modal(document.getElementById('txnDetailModal'));
+            modal.show();
+            // In a real app, you'd fetch by ID here. For now, we use the local list or a mock detail.
+            document.getElementById('txnDetailBody').innerHTML = `<div class="text-center p-5"><p>Loading details for ${id}...</p></div>`;
+            setTimeout(() => {
+                document.getElementById('txnDetailBody').innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="text-muted small fw-bold mb-3 text-uppercase">CORE INFORMATION</h6>
+                            <div class="mb-2 d-flex justify-content-between"><span>ID:</span> <strong>${id}</strong></div>
+                            <div class="mb-2 d-flex justify-content-between"><span>Status:</span> <strong class="text-danger">VERIFIED</strong></div>
+                        </div>
+                        <div class="col-md-6 border-start ps-4">
+                            <h6 class="text-muted small fw-bold mb-3 text-uppercase">ACTION LOG</h6>
+                            <p class="small text-muted">No manual actions taken yet.</p>
+                        </div>
+                    </div>
+                `;
+            }, 500);
+        }
+
+        fetchTransactionsDetailed();
+    </script>
+</body>
+
+</html>

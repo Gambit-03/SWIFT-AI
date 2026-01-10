@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Swift AI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link rel="stylesheet" href="styles/new-style.css">
+</head>
+
+<body>
+    <!-- Updated Universal Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="dashboard.html">
+                <i class="fas fa-shield-halved text-danger fs-3 me-2"></i>
+                <span class="fw-bold fs-4">Swift AI</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-2" href="dashboard.html"><i
+                                class="fas fa-chart-line me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="live-monitoring.html"><i
+                                class="fas fa-eye me-1"></i> Live</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="fraud-alerts.html"><i
+                                class="fas fa-bell me-1"></i> Alerts</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="risk-scoring.html"><i
+                                class="fas fa-tachometer-alt me-1"></i> Risk</a></li>
+                    <li class="nav-item"><a class="nav-link px-2 active" href="analytics.html"><i
+                                class="fas fa-chart-pie me-1"></i> Analytics</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="models.html"><i class="fas fa-brain me-1"></i>
+                            Models</a></li>
+                    <li class="nav-item"><a class="nav-link px-2" href="reports.html"><i
+                                class="fas fa-file-contract me-1"></i> Reports</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-2" href="#" id="moreDropdown" role="button"
+                            data-bs-toggle="dropdown">More</a>
+                        <ul class="dropdown-menu shadow-sm border-0">
+                            <li><a class="dropdown-item" href="transactions.html"><i
+                                        class="fas fa-exchange-alt me-2"></i> Transactions</a></li>
+                            <li><a class="dropdown-item" href="customers.html"><i class="fas fa-users me-2"></i>
+                                    Customers</a></li>
+                            <li><a class="dropdown-item" href="integrations.html"><i class="fas fa-plug me-2"></i>
+                                    Integrations</a></li>
+                            <li><a class="dropdown-item" href="feedback-learning.html"><i
+                                        class="fas fa-graduation-cap me-2"></i> Feedback & Learning</a></li>
+                            <li><a class="dropdown-item" href="user-management.html"><i
+                                        class="fas fa-user-cog me-2"></i> User Management</a></li>
+                            <li><a class="dropdown-item" href="audit-logs.html"><i class="fas fa-file-invoice me-2"></i>
+                                    Audit Logs</a></li>
+                            <li><a class="dropdown-item" href="transaction-simulator.html"><i
+                                        class="fas fa-microchip me-2"></i> Simulator</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-outline-secondary btn-sm rounded-circle" id="themeToggle"
+                        onclick="toggleTheme()" style="width: 38px; height: 38px;">
+                        <i class="fas fa-moon" id="themeIcon"></i>
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle d-flex align-items-center" type="button"
+                            data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=Admin+User&background=dc3545&color=fff"
+                                class="rounded-circle me-2" width="28" height="28" alt="User">
+                            <span>Admin</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                            <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-circle me-2"></i>
+                                    Profile</a></li>
+                            <li><a class="dropdown-item" href="settings.html"><i class="fas fa-cog me-2"></i>
+                                    Settings</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item text-danger" href="login.html"><i
+                                        class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid px-4 py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Analytics & Reports</h2>
+            <div>
+                <select class="form-select d-inline-block me-2" style="width: auto;">
+                    <option>Last 24 Hours</option>
+                    <option>Last 7 Days</option>
+                    <option>Last 30 Days</option>
+                    <option>Custom Range</option>
+                </select>
+                <button class="btn btn-danger" onclick="handleExportAnalytics()"><i
+                        class="fas fa-file-export me-2"></i>Export Report</button>
+            </div>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-shield-halved text-danger fs-1 mb-3"></i>
+                        <h6 class="text-muted mb-2">Total Fraud Detected</h6>
+                        <h2 class="fw-bold mb-2" id="kpi-fraud-count">-</h2>
+                        <small class="text-danger"><i class="fas fa-arrow-up"></i> Live</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-dollar-sign text-success fs-1 mb-3"></i>
+                        <h6 class="text-muted mb-2">Loss Prevented</h6>
+                        <h2 class="fw-bold mb-2" id="kpi-loss-prevented">-</h2>
+                        <small class="text-success"><i class="fas fa-arrow-up"></i> Est.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-percentage text-warning fs-1 mb-3"></i>
+                        <h6 class="text-muted mb-2">False Positive Rate</h6>
+                        <h2 class="fw-bold mb-2" id="kpi-false-pos-rate">-</h2>
+                        <small class="text-success"><i class="fas fa-arrow-down"></i> Live</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="fas fa-bullseye text-info fs-1 mb-3"></i>
+                        <h6 class="text-muted mb-2">Detection Accuracy</h6>
+                        <h2 class="fw-bold mb-2" id="kpi-accuracy">-</h2>
+                        <small class="text-success"><i class="fas fa-arrow-up"></i> 0.5% from last period</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Fraud Trends Over Time</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="fraudTrendsChart" height="80"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="mb-0 fw-bold">Fraud by Category</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shared Action Modal -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" id="actionModalTitle">Action Required</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <p id="actionModalMessage" class="text-muted">Are you sure you want to proceed with this action?</p>
+                    <div id="actionModalForm" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">NAME / LABEL</label>
+                            <input type="text" class="form-control" placeholder="Enter name...">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">DESCRIPTION</label>
+                            <textarea class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger px-4" id="confirmActionBtn">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/actions.js"></script>
+    <script>
+        async function fetchAnalytics() {
+            try {
+                // 1. Fetch Stats & Analytics
+                const statsResponse = await fetch('/api/stats/dashboard');
+                const stats = await statsResponse.json();
+
+                const analyticResponse = await fetch('/api/analytics');
+                const analytics = await analyticResponse.json();
+
+                // Update Overview Cards with Dynamic Data
+                document.getElementById('kpi-fraud-count').innerText = stats.kpis.blocked || 0;
+
+                const lossValue = analytics.loss_prevented || (stats.kpis.blocked * 1250); // Fallback estimate
+                document.getElementById('kpi-loss-prevented').innerText = '$' + lossValue.toLocaleString();
+
+                // Calculate false positive rate dynamically if possible, else use analytic stat
+                const fpRate = analytics.false_positive_rate || ((stats.kpis.review / (stats.kpis.total_txns || 1)) * 10).toFixed(1);
+                document.getElementById('kpi-false-pos-rate').innerText = fpRate + '%';
+
+                const accuracy = stats.ml_metrics ? stats.ml_metrics.estimated_accuracy : 95.5;
+                document.getElementById('kpi-accuracy').innerText = accuracy + '%';
+
+                // Update Category Pie Chart
+                // Ensure we have labels/data
+                const catLabels = analytics.categories ? Object.keys(analytics.categories) : [];
+                const catData = analytics.categories ? Object.values(analytics.categories) : [];
+
+                if (catLabels.length > 0) {
+                    categoryChart.data.labels = catLabels;
+                    categoryChart.data.datasets[0].data = catData;
+                    categoryChart.update();
+                }
+
+                // Update Timeline (Keep using trends from stats/dashboard for consistency)
+                trendsChart.data.labels = stats.charts.trends.labels;
+                trendsChart.data.datasets[0].data = stats.charts.trends.data;
+                trendsChart.update();
+
+            } catch (e) { console.error('Analytics Error:', e); }
+        }
+
+        function showAction(title, message, showForm = false) {
+            document.getElementById('actionModalTitle').innerText = title;
+            document.getElementById('actionModalMessage').innerText = message;
+            document.getElementById('actionModalForm').style.display = showForm ? 'block' : 'none';
+            const modal = new bootstrap.Modal(document.getElementById('actionModal'));
+            modal.show();
+
+            document.getElementById('confirmActionBtn').onclick = function () {
+                const btn = this;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                setTimeout(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+                    btn.innerHTML = 'Proceed';
+                    btn.disabled = false;
+                }, 1000);
+            };
+        }
+
+        let trendsChart, categoryChart;
+        const ctx1 = document.getElementById('fraudTrendsChart').getContext('2d');
+        trendsChart = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Risk Velocity',
+                    data: [],
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        const ctx2 = document.getElementById('categoryChart').getContext('2d');
+        categoryChart = new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: [],
+                datasets: [{
+                    data: [],
+                    backgroundColor: ['#dc3545', '#ffc107', '#20c997', '#4ecdc4', '#ff6b6b']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                const themeIcon = document.getElementById('themeIcon');
+                if (themeIcon) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                }
+            }
+            fetchAnalytics();
+        });
+        setInterval(fetchAnalytics, 7000);
+
+        function handleExportAnalytics() {
+            if (typeof SwiftAI === 'undefined') {
+                alert('Error: SwiftAI actions library not loaded.');
+                return;
+            }
+            SwiftAI.showActionModal(
+                'Export Analytics Report',
+                'Generate a PDF report of current analytics view.',
+                [
+                    { id: 'name', label: 'REPORT NAME', type: 'text', placeholder: 'Analytics Summary' },
+                    { id: 'type', label: 'FORMAT', type: 'select', options: ['PDF', 'CSV', 'Excel'] },
+                    { id: 'description', label: 'DESCRIPTION', type: 'textarea' }
+                ],
+                async (formData) => {
+                    await SwiftAI.generateReport(formData);
+                }
+            );
+        }
+    </script>
+</body>
+
+</html>
