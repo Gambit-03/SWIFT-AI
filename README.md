@@ -2,7 +2,6 @@
 
 **A production-ready fraud detection system built for the 36-hour hackathon.**
 
----
 
 ## 🎯 Mission Summary
 
